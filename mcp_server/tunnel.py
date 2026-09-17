@@ -1,4 +1,4 @@
-﻿import sys
+import sys
 from typing import Optional
 from pyngrok import ngrok, conf
 from mcp_server.config import settings
@@ -13,7 +13,8 @@ def start_ngrok(port: int, authtoken: str = '', domain: str = '') -> Optional[st
             print(f'[Ngrok Warning] Failed to set authtoken: {e}')
 
     try:
-        connect_kwargs = {'addr': port, 'proto': 'http'}
+        pyngrok_cfg = conf.PyngrokConfig(startup_timeout=35)
+        connect_kwargs = {'addr': port, 'proto': 'http', 'pyngrok_config': pyngrok_cfg}
         dom = domain or settings.NGROK_DOMAIN
         if dom:
             connect_kwargs['domain'] = dom
